@@ -1,0 +1,184 @@
+:root {
+  --primary-brand-color: #4d85c4;
+  --secondary-brand-color: #335d92;
+  --border-radius: 4px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+section {
+  max-width: 800px;
+  margin: auto;
+  text-align: left;
+}
+
+a {
+  cursor: pointer;
+}
+
+a:link {
+  color: var(--secondary-brand-color);
+}
+
+button {
+  border: 1px solid var(--primary-brand-color);
+  background-color: white;
+  color: var(--primary-brand-color);
+  float: right;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  font-size: 1em;
+  padding: 8px 8px;
+}
+
+button:disabled {
+  background-color: lightgrey;
+  color: darkgrey;
+  border: none;
+  cursor: default;
+}
+
+button:hover {
+  border-width: 2px;
+  position: relative;
+  top: -1px;
+  right: -1px;
+}
+
+@keyframes shell-logo__spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.shell-logo {
+  animation: shell-logo__spin infinite 20s linear;
+  height: 80px;
+}
+
+.shell {
+  text-align: center;
+}
+
+.shell-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.shell-menu {
+  background-color: var(--primary-brand-color);
+  height: 20px;
+  font-weight: bold;
+  margin: 0;
+  padding: 8px;
+}
+
+a.shell-menu__item {
+  display: inline-block;
+  padding: 0px 10px;
+  color: white;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.c-cart-item {
+  border: 1px solid var(--primary-brand-color);
+  border-radius: var(--border-radius);
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.c-books ol {
+  padding-inline-start: 2ch;
+}
+
+.c-cart-item__detail {
+  width: 200px;
+  margin-left: auto;
+  margin-right: 0px;
+  background-color: #e2e2e2;
+  padding: 8px 20px;
+  margin-bottom: 8px;
+  border-radius: var(--border-radius);
+  font-size: 0.8em;
+  text-align: right;
+}
+
+.c-cart-item-detail p {
+  margin: 0;
+  padding: 0;
+}
+
+.c-cart-item-detail input {
+  width: 50px;
+}
+
+.c-toast {
+  --c-toast-fade-duration: 0s;
+  visibility: hidden;
+
+  min-width: 250px;
+  background-color: var(--secondary-brand-color);
+  color: white;
+  text-align: left;
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.25rem;
+  bottom: 30px;
+}
+
+.c-toast.c-toast__fadein {
+  animation: c-toast__fadein var(--c-toast-fade-duration) forwards;
+}
+
+@keyframes c-toast__fadein {
+  0% {
+    bottom: 0;
+    opacity: 0;
+    visibility: visible;
+  }
+  100% {
+    bottom: 30px;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.c-toast.c-toast__fadeout {
+  animation: c-toast__fadeout var(--c-toast-fade-duration) forwards;
+}
+
+@keyframes c-toast__fadeout {
+  100% {
+    bottom: 0;
+    opacity: 0;
+    visibility: hidden;
+  }
+  0% {
+    bottom: 30px;
+    opacity: 1;
+    visibility: visible;
+  }
+}
