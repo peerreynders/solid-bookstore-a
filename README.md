@@ -18,8 +18,9 @@ Currently this demo compiles to a ~37Kb (~15Kb gzipped) build.
 
 ## Notes
 * Yes, this could use a bit more work; perhaps later.
-* SolidJS's reactive primitives only work within a tracked context. On the client-side [`render`](https://www.solidjs.com/docs/latest/api#render) ([`index.tsx`](.src/index.tsx)) is responsible for creating that environment.
-  * When testing outside of the browser an owner scope has to be explicitly created with [`createRoot`](https://www.solidjs.com/docs/latest/api#createroot) for the test to run in. The [`rootAndRun()`](./tests/helpers/index.ts) testing utility wraps a test passed as a factory in such a scope. See the [demo test](./tests/demo.skip.ts) for a rudimentary example and [Testing your Solid.js code with jest](https://dev.to/lexlohr/testing-your-solidjs-code-2gfh) for more background.
+* SolidJS's reactive primitives only work within a tracked context. On the client-side [`render`](https://www.solidjs.com/docs/latest/api#render) ([`index.tsx`](./src/index.tsx)) is responsible for creating that environment.
+  * When testing outside of the browser an owner scope has to be explicitly created with [`createRoot`](https://www.solidjs.com/docs/latest/api#createroot) for the test to run in. The [`rootAndRun()`
+  ](./tests/helpers/index.ts) testing utility wraps a test passed as a factory in such a scope. See the [demo test](./tests/demo.skip.ts) for a rudimentary example and [Testing your Solid.js code with jest](https://dev.to/lexlohr/testing-your-solidjs-code-2gfh) for more background.
   * When running server-side SolidJS's reactivity is deliberately curtailed to properly support SSR. For the client-side code under test to operate as intended it is necessary to direct the module loader to load the browser version of SolidJS instead of the server version. This is accomplished with [`solid-register`](https://github.com/atk/solid-register). For more background see [Testing Solid.js code beyond jest](https://dev.to/lexlohr/testing-solidjs-code-beyond-jest-39p).
 * [uvu](https://github.com/lukeed/uvu) was selected for its speed and [minimalist](https://medium.com/javascript-scene/why-i-use-tape-instead-of-mocha-so-should-you-6aa105d8eaf4
 ) API.
