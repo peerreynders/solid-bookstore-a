@@ -7,8 +7,12 @@ import type { Store } from 'solid-js/store';
 import { ToastState } from '../../src/stores/Toast';
 import type { BookRaw, BookState } from '../../src/stores/BookStore';
 
-type Done<T> = (data?: T, err?: Error) => void;
-type Factory<T> = (done: Done<T>) => (() => void) | undefined;
+type FnVoid = () => void;
+type Maybe<T> = T | undefined;
+type Resolve<T> = (value: T) => void;
+type Reject = (reason: unknown) => void;
+type Done<T> = (data: Maybe<T>, err?: unknown) => void;
+type Factory<T> = (done: Done<T>) => Maybe<FnVoid>;
 
 const TOAST_SILENCE = 'CRICKETS';
 
@@ -16,27 +20,10 @@ async function rootAndRun<T>(
   timeoutMs: number,
   factory: Factory<T>
 ): Promise<T> {
-  let disposeFn: (() => void) | undefined;
-  let timeoutId;
+  let disposeFn: Maybe<FnVoid>;
+  let timeoutId: Maybe<ReturnType<typeof setTimeout>>;
   try {
-    return await new Promise((resolve, reject) => {
-      createRoot((dispose) => {
-        disposeFn = dispose;
-
-        timeoutId = setTimeout(function timeout() {
-          timeoutId = undefined;
-          reject(new Error('Timed out'));
-        }, timeoutMs);
-
-        // queueMicrotask/setTimeout allows `setup` to finish
-        // before exercising the reactive graph with `run`
-        const run = factory(function done(data, err) {
-          if (data === undefined) reject(err);
-          else resolve(data);
-        });
-        if (typeof run === 'function') queueMicrotask(run);
-      });
-    });
+    return await new Promise(executor);
   } finally {
     if (disposeFn) {
       disposeFn();
@@ -45,6 +32,30 @@ async function rootAndRun<T>(
     if (timeoutId) {
       clearTimeout(timeoutId);
       timeoutId = undefined;
+    }
+  }
+
+  // ---
+  function executor(resolve: Resolve<T>, reject: Reject) {
+    createRoot((dispose) => {
+      disposeFn = dispose;
+      timeoutId = setTimeout(timeout, timeoutMs);
+      // queueMicrotask/setTimeout allows `setup` to finish
+      // before exercising the reactive graph with `run`
+      const run = factory(done);
+      if (typeof run === 'function') queueMicrotask(run);
+    });
+
+    // ---
+    function timeout() {
+      timeoutId = undefined;
+      reject(new Error('Timed out'));
+    }
+
+    function done(data: Maybe<T>, reason: unknown) {
+      // eslint-disable-next-line eqeqeq
+      if (data != undefined) resolve(data);
+      else reject(reason);
     }
   }
 }

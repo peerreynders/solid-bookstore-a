@@ -2,7 +2,7 @@ import { suite } from 'uvu';
 import * as assert from 'uvu/assert';
 import { createEffect, on } from 'solid-js';
 
-import { createShop, MODE, ToastState } from '../src/stores/Shop';
+import { createShop, MODE } from '../src/stores/Shop';
 
 import {
   booksSizes,
